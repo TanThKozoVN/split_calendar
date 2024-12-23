@@ -25,7 +25,3 @@ fi
 
 # Install npm dependencies and build assets
 npm install
-npm run dev &
-
-# Start the Laravel server
-php artisan serve --host=0.0.0.0 --port=8000

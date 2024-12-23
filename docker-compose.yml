@@ -3,10 +3,12 @@ version: "3.9"
 services:
   laravelapp:
     container_name: split-calendar
+    volumes:
+      - ./:/var/www/html
     build: .
     restart: always
     ports:
-      - "8003:8000"
+      - 8003:80
     env_file:
       - .env
     depends_on:
@@ -43,6 +45,19 @@ services:
       - 8081:80
     environment:
       - PMA_HOST=mysql
+    networks:
+      - laravel
+      
+  vite:
+    container_name: vite_calendar
+    build:
+      context: .
+    command: npm run dev
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 5173:5173
     networks:
       - laravel
       

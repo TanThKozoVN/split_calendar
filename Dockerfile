@@ -27,17 +27,20 @@ COPY . .
 
 # Change ownership of specific directories
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
 
 # Install PHP dependencies
 RUN composer install
 
 # Install npm dependencies and build assets
 RUN npm install
+
+RUN chmod -R 777 entrypoint.sh && ./entrypoint.sh
 # RUN npm run dev
 
-# Copy and set entrypoint script
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+# # Copy and set entrypoint script
+# COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+# RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Set entrypoint
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+# # Set entrypoint
+# ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
